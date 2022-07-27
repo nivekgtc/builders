@@ -1,9 +1,9 @@
-import React, { FC, useCallback, useEffect, useState } from "react"
+import React, { FC, useCallback, useEffect, useMemo, useState } from "react"
 import { observer } from "mobx-react-lite"
-import { ViewStyle } from "react-native"
+import { Image, View, ViewStyle, Text as TextRn } from "react-native"
 import { StackScreenProps } from "@react-navigation/stack"
 import { NavigatorParamList } from "../../navigators"
-import { Screen, Text } from "../../components"
+import { AutoImage, GradientBackground, Screen, Text } from "../../components"
 // import { useNavigation } from "@react-navigation/native"
 // import { useStores } from "../../models"
 import { color } from "../../theme"
@@ -14,7 +14,9 @@ import { ServicesTypes } from "~/ioc/types"
 import { LoadWeather } from "~/domain/usecases"
 import { WeatherModel } from "~/domain/models"
 import { container } from "~/ioc/ioc.config"
-import { ScreenStyled } from "./home-screen-styles"
+import { CardStyled, CloundAndRain, Local, ScreenStyled, TemperatureRatings } from "./home-screen-styles"
+import { Card } from "@rneui/base"
+import { makeApiImageUrl } from "~/ioc/helpers"
 
 const ROOT: ViewStyle = {
   backgroundColor: color.palette.black,
@@ -86,12 +88,37 @@ export const HomeScreen: FC<StackScreenProps<NavigatorParamList, "home">> = () =
 
   }
 
+  const hasImage = useMemo(() => temp?.current?.weather?.[0]?.icon, [temp?.current?.weather])
+
   return (
     <ScreenStyled style={ROOT} preset="scroll">
-      <Text preset="header" text="home" />
       <Text preset="header" text='Sem localizar' onPress={loadWeather}/>
 
-      <Text preset="secondary" text={temp?.current?.temp as unknown as string ?? 'Independentmente do seu belo visual auauauau'}/>
+      <CardStyled onPress={tryToGetLocation}>
+        <GradientBackground colors={["#3C6FD1", "#B0C1FC"]} start={{x: 0, y: 0.5}} end={{x: 1, y: 0.5}}/>
+        <CloundAndRain>
+            {/* <Text fontSize="14px" text={temp?.current?.temp as unknown as string ?? 'Change de chuva 60%'}/> */}
+            <Text fontSize="24px" style={{ textTransform: 'capitalize', fontSize: 24 }} text={temp?.current?.weather?.[0]?.description as unknown as string ?? 'Parcialmente nublado'}/>
+          {hasImage && <AutoImage source={{ uri: `http://openweathermap.org/img/wn/${hasImage}@2x.png`}} /> }
+        </CloundAndRain>
+
+        <Local>
+          {/* <Icon/> */}
+
+
+          <Text text={temp?.current?.temp as unknown as string ?? 'Arcoverde, PE, BRAZIL'}/>
+        </Local>
+
+        <TemperatureRatings>
+          <Text preset="header"  text={temp?.current?.temp && `${Math.floor(temp?.current?.temp)}°C` as unknown as string || '19ºC'}/>
+          <Text preset="header" style={{ fontSize: 12 }} text={temp?.current?.temp && `${Math.floor(temp?.current?.humidity)}%` as unknown as string || ''}/>
+          <Text preset="header" style={{ fontSize: 12 }} text={temp?.current?.uvi as unknown as string || ''}/>
+          <Text preset="header" style={{ fontSize: 12 }} text={`${temp?.current?.wind_speed} km/h` as unknown as string || ''}/>
+        </TemperatureRatings>
+
+      </CardStyled>
+
+
     </ScreenStyled>
   )
 }
