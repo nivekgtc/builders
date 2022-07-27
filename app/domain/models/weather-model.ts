@@ -1,8 +1,8 @@
 export type WeatherModel = {
-  "lat": 33.44
-  "lon": -94
-  "timezone": "America/Chicago"
-  "timezone_offset": -18000
+  "lat": number
+  "lon": number
+  "timezone": string
+  "timezone_offset": number
   "current": {
     "dt": number
     "sunrise": number
@@ -17,11 +17,11 @@ export type WeatherModel = {
     "visibility": number
     "wind_speed": number
     "wind_deg": number
-    "weather": Array<{
+    "weather": {
       "id": number
       "main": string
       "description": string
       "icon": string
-    }>
+    }[]
   }
 }
