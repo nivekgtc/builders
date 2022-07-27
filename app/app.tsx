@@ -9,16 +9,19 @@
  * The app navigation resides in ./app/navigators, so head over there
  * if you're interested in adding screens and navigators.
  */
-import "./i18n"
-import "./utils/ignore-warnings"
+import "reflect-metadata"
+import "./presentation/main/i18n"
+import "./application/common/utils/ignore-warnings"
 import React, { useState, useEffect } from "react"
 import { SafeAreaProvider, initialWindowMetrics } from "react-native-safe-area-context"
-import { initFonts } from "./theme/fonts" // expo
-import * as storage from "./utils/storage"
-import { AppNavigator, useNavigationPersistence } from "./navigators"
+import { initFonts } from "./presentation/theme/fonts" // expo
+import * as storage from "./application/common/utils/storage"
+import { AppNavigator, useNavigationPersistence } from "./presentation/navigators"
 import { RootStore, RootStoreProvider, setupRootStore } from "./models"
 import { ToggleStorybook } from "../storybook/toggle-storybook"
-import { ErrorBoundary } from "./screens/error/error-boundary"
+import { ErrorBoundary } from "./presentation/screens/error/error-boundary"
+import { ContainerProvider, TranslateProvider } from "./presentation/providers"
+import { container } from "./ioc/ioc.config"
 
 // This puts screens in a native ViewController or Activity. If you want fully native
 // stack navigation, use `createNativeStackNavigator` in place of `createStackNavigator`:
@@ -56,16 +59,20 @@ function App() {
   // otherwise, we're ready to render the app
   return (
     <ToggleStorybook>
-      <RootStoreProvider value={rootStore}>
-        <SafeAreaProvider initialMetrics={initialWindowMetrics}>
-          <ErrorBoundary catchErrors={"always"}>
-            <AppNavigator
-              initialState={initialNavigationState}
-              onStateChange={onNavigationStateChange}
-            />
-          </ErrorBoundary>
-        </SafeAreaProvider>
-      </RootStoreProvider>
+      <ContainerProvider container={container}>
+        <RootStoreProvider value={rootStore}>
+          <TranslateProvider>
+            <SafeAreaProvider initialMetrics={initialWindowMetrics}>
+              <ErrorBoundary catchErrors={"always"}>
+                <AppNavigator
+                  initialState={initialNavigationState}
+                  onStateChange={onNavigationStateChange}
+                />
+              </ErrorBoundary>
+            </SafeAreaProvider>
+          </TranslateProvider>
+        </RootStoreProvider>
+      </ContainerProvider>
     </ToggleStorybook>
   )
 }

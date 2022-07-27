@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react"
 import { DevSettings } from "react-native"
-import { loadString, saveString } from "../app/utils/storage"
+import { loadString, saveString } from "../app/application/common/utils/storage"
 import { DEFAULT_REACTOTRON_WS_URI } from "../app/services/reactotron/reactotron-config"
 
 /**
