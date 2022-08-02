@@ -15,5 +15,15 @@ storiesOf("Icon", module)
       <UseCase text="bullet" usage="The icon for a bullet point">
         <Icon icon="bullet" />
       </UseCase>
+
+      <UseCase text="humidity" usage="The icon for show humidity rating">
+        <Icon icon="humidity" />
+      </UseCase>
+      <UseCase text="windSpeed" usage="The icon for show Wind Speed Rating">
+        <Icon icon="windSpeed" />
+      </UseCase>
+      <UseCase text="uvi" usage="The icon for show uvi rating">
+        <Icon icon="uvi" />
+      </UseCase>
     </Story>
   ))

@@ -18,4 +18,10 @@ export interface IconProps {
    */
 
   icon?: IconTypes
+
+  /**
+   * Size of the icon
+   */
+
+  size?: string | number
 }

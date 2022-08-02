@@ -43,3 +43,13 @@ export const TemperatureRatings = styled.View`
   align-items: center;
   justify-content: space-between;
 `;
+
+export const SubRatings = styled.View`
+  flex: 1;
+
+  flex-direction: row;
+
+  justify-content: space-between;
+
+  margin-left: 14px;
+`

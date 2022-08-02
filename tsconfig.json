@@ -34,5 +34,8 @@
     "test",
     "storybook"
   ],
+  "files": [
+    "./app/presentation/components/icon/icons/svg.d.ts"
+  ],
   "extends": "expo/tsconfig.base"
 }
